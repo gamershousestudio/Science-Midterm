@@ -34,6 +34,10 @@ class Canvas(Window):
 
         self.cars_batch = Batch()
         self.car_images = [image.load(c) for c in car_image_paths]
+
+        # Keyboard
+        self.keyboard = key.KeyStateHandler()
+        self.push_handlers(self.keyboard)
     
     # Opens the window
     def simulate_generation(self):
@@ -56,7 +60,8 @@ class Canvas(Window):
 
     # Passed changes to the gpu
     def update(self, delta_time):
-        pass
+        for car_sprite in self.car_sprites:
+            car_sprite.update(self, delta_time, self.keyboard)
     
     def draw(self):
         self.clear()
