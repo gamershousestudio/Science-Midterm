@@ -3,6 +3,7 @@ from pyglet.window import Window, key
 from pyglet import image
 from pyglet.graphics import Batch
 from pyglet.sprite import Sprite
+import pyglet
 
 # Generic python libs
 import time
@@ -10,7 +11,6 @@ import random
 
 # Other scripts
 from car import Car
-
 
 # Display
 class Canvas(Window):
@@ -41,6 +41,9 @@ class Canvas(Window):
     
     # Opens the window
     def simulate_generation(self):
+        config = pyglet.gl.Config(double_buffer=True)
+        window = pyglet.window.Window(config=config)
+
         self.car_sprites = []
         self.car_sprites.append(Car(random.choice(self.car_images), self.cars_batch))
 
@@ -61,7 +64,7 @@ class Canvas(Window):
     # Passed changes to the gpu
     def update(self, delta_time):
         for car_sprite in self.car_sprites:
-            car_sprite.update(self, delta_time, self.keyboard)
+            car_sprite.update(delta_time, self.keyboard)
     
     def draw(self):
         self.clear()
