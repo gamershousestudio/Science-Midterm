@@ -19,7 +19,7 @@ class Canvas(Window):
 
     # Creates the window
     def __init__(self, track_image_path, car_image_paths):
-        super().__init__()
+        super().__init__(vsync=True)
 
         # Allows for the window to be closed
         self.is_simulating = True
@@ -41,9 +41,6 @@ class Canvas(Window):
     
     # Opens the window
     def simulate_generation(self):
-        config = pyglet.gl.Config(double_buffer=True)
-        window = pyglet.window.Window(config=config)
-
         self.car_sprites = []
         self.car_sprites.append(Car(random.choice(self.car_images), self.cars_batch))
 
