@@ -35,20 +35,25 @@ class Canvas(Window):
         self.cars_batch = Batch()
         self.car_images = [image.load(c) for c in car_image_paths]
 
-        # Keyboard
-        self.keyboard = key.KeyStateHandler()
-        self.push_handlers(self.keyboard)
+        # Track data
+        self.track = track
     
     # Opens the window
-    def simulate_generation(self):
+    def simulate_generation(self, networks):
+        # Creates cars
         self.car_sprites = []
-        self.car_sprites.append(Car(random.choice(self.car_images), self.cars_batch))
+        for network in networks:
+            self.car_sprites.append(Car(network, random.choice(self.car_images), self.cars_batch))
+
+        # Finds total population & current population
+        self.population_total = len(self.car_sprites)
+        self.population_alive = self.population_total
 
         # Gets current time 
         last_time = time.perf_counter()
 
         # Main simulation loop
-        while self.is_simulating:
+        while self.is_simulating and self.population_alive > 0:
             elapsed_time = time.perf_counter() - last_time
 
             # Updates time & creates frames
@@ -58,11 +63,21 @@ class Canvas(Window):
                 self.update(elapsed_time)
                 self.draw()
 
-    # Passed changes to the gpu
+    # Updates simulation
     def update(self, delta_time):
         for car_sprite in self.car_sprites:
-            car_sprite.update(delta_time, self.keyboard)
+            car_sprite.update(delta_time)
     
+            # Makes sure the car is still on the track, and if not disables the car
+            if car_sprite.is_running:
+                if not self.track.is_road(car_sprite.body.x, car_sprite.body.y):
+                    car_sprite.is_running = False
+
+        # Finds how many cars are still running
+        running_cars = [c for c in self.car_sprites if c.is_running]
+        self.population_alive = len(running_cars)
+
+    # Passed changes to the gpu
     def draw(self):
         self.clear()
         self.background_batch.draw()
