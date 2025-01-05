@@ -18,7 +18,7 @@ class Canvas(Window):
     frame_duration = 1 / 60
 
     # Creates the window
-    def __init__(self, track_image_path, car_image_paths):
+    def __init__(self, track, car_image_paths):
         super().__init__(vsync=True)
 
         # Allows for the window to be closed
@@ -30,7 +30,7 @@ class Canvas(Window):
 
         # Rendering batches
         self.background_batch = Batch()
-        self.track_image_sprite = Sprite(image.load(track_image_path), batch=self.background_batch)
+        self.track_image_sprite = Sprite(track.track_image, batch=self.background_batch)
 
         self.cars_batch = Batch()
         self.car_images = [image.load(c) for c in car_image_paths]

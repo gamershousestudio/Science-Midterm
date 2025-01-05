@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="E:\Science_PBL_AI_Project\venv"
+VIRTUAL_ENV="E:\Science-8PBL-AI-Project\Science-Midterm\Project\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
