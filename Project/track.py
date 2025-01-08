@@ -1,14 +1,21 @@
 # Path library
 import os
+import json
 
 # Graphics library
 from pyglet import image
 from itertools import zip_longest
 
 class Track:
-    def __init__(self):
+    def __init__(self, index):
         # Track info
-        self.track_image = image.load(os.path.join("sprites", "assets-parkinglot", "parkinglot.png"))
+        self.track_image = image.load(os.path.join("sprites", "tracks", f"track{index}.png"))
+        self.overlay_image = image.load(os.path.join("sprites", "overlay", f"track{index}-overlay.png"))
+
+        # Loads track info
+        with open(os.path.join("info", f"track{index}.json"), "r") as file:
+            data = json.load(file)
+        self.checkpoints = data["checkpoints"]
         
         # The 'pitch' is the width of the image multiplied by the length of "RGBA" to get the row's byte width
         pitch = self.track_image.width * len("RGBA")
