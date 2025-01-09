@@ -14,6 +14,7 @@ import math
 # Other scripts
 from car import Car
 from HUD import Hud
+from fitness import Fitness
 
 # Display
 class Canvas(Window):
@@ -76,6 +77,11 @@ class Canvas(Window):
                 self.dispatch_events()
                 self.update(elapsed_time)
                 self.draw()
+        
+        # Calls fitness function 
+        Fitness.calculate_cost(self.car_sprites)
+
+        
 
     # Updates simulation
     def update(self, delta_time):
