@@ -1,5 +1,3 @@
-from network import Network
-
 class Fitness:
     # Calculates the ranking for each car
     def calculate_cost(car_sprites):
@@ -15,14 +13,3 @@ class RankChromosomes:
     # Rank selection
     def __lt__(self, other):
         return self.highest_checkpoint > other.highest_checkpoint
-    
-    # Ranks chromosomes
-    def serialize(self):
-        chromosomes = []
-
-        for layer in Network.layers:
-            for outputs in layer.weights:
-                for weight in outputs:
-                    chromosomes.append(weight)
-        
-        return self(Network.highest_checkpoint, chromosomes)

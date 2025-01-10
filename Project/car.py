@@ -82,7 +82,7 @@ class Car:
             acceleration, steer_position = self.network.feed_forward(measurements)
             
             if acceleration > 0:
-                self.speed += 0.1
+                self.speed += 0.2
 
             # Prevents negative speed
             if self.speed <= 0:
