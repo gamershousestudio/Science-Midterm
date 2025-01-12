@@ -27,6 +27,8 @@ class Layer:
 # Neural network
 class Network:
     def __init__(self, dimensions):
+        self.reached_goal = False
+
         # Dimensions is # of neurons per layer(len() is # of layers + 1)
         self.dimensions = dimensions
 

@@ -51,9 +51,14 @@ class Canvas(Window):
         self.track = track
     
     # Opens the window
-    def simulate_generation(self, networks, simulation_round):
+    def simulate_generation(self, networks, simulation_round, display_network):
         # Generates UI
-        self.hud = Hud(simulation_round, self.overlay_batch)
+        if display_network:
+            self.hud = Hud(simulation_round, networks[0].dimensions, self.overlay_batch)
+            self.display_network = True
+        else:
+            self.hud = Hud(simulation_round, False, self.overlay_batch)
+            self.display_network = False
 
         # Creates cars
         self.car_sprites = []
@@ -78,10 +83,13 @@ class Canvas(Window):
                 self.update(elapsed_time)
                 self.draw()
         
+        # Finds how many cars passed the finish
+        for car in self.car_sprites:
+            if car.last_checkpoint_passed == len(self.checkpoint_sprites) - 1:
+                car.network.reached_goal = True
+
         # Calls fitness function 
         Fitness.calculate_cost(self.car_sprites)
-
-        
 
     # Updates simulation
     def update(self, delta_time):
@@ -101,8 +109,11 @@ class Canvas(Window):
         self.population_alive = len(running_cars)
 
         # Updates HUD
+        if self.display_network == True:
+            self.display_network = running_cars[0].network
+
         if self.population_alive > 0:
-            self.hud.update(self.population_alive, self.population_total)
+            self.hud.update(self.display_network, self.population_alive, self.population_total)
 
     # Passed changes to the gpu
     def draw(self):

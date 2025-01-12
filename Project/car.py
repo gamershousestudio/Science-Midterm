@@ -43,7 +43,7 @@ class Car:
     # Physics stuff
     deceleration_rate = 0.2 # Deceleration when off track
     friction = 0.05  # Friction while driving on track
-    drift_factor = 0.4  # Drift intensity (higher means more drift)
+    drift_factor = 2  # Drift intensity (higher means more drift)
 
 
 
